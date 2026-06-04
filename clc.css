@@ -18,7 +18,7 @@ body{
 }
 
 
-.display {
+#display {
   border: solid rgb(65, 64, 64);
   background:black;
   color: white;
@@ -27,7 +27,19 @@ body{
   padding: 20px 10px;
   border-radius: 10px;
   margin-bottom: 10px;
+
 } 
+#screen{
+  text-align: right;
+  color:black ;
+  font-weight: bold;
+  font-size: 20px;
+  width: 95%;
+  margin-right: 15px;
+  height:85%;
+  background-color: #767676;
+  pointer-events: none;
+}
 
 .buttons{
   height: 80%;
@@ -49,6 +61,7 @@ button {
   background: #3f3e3e;
   color: white;
   cursor: pointer;
+  box-shadow:-5px -5px 5px #767676 inset;
 }
 button:hover{
   background-color: #585656;

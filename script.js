@@ -37,7 +37,7 @@ buttons.forEach(function(button){
         // BACKSPACE BUTTON
 
 
-        else if(value === "c" || value === "C"){
+        else if(value === "Back"){
 
             expression = expression.slice(0,-1);
 

@@ -1,129 +1,144 @@
-// DISPLAY
-
 let screen = document.getElementById("screen");
-
-
-// ALL BUTTONS
 
 let buttons = document.querySelectorAll("button");
 
-
-// STORE EXPRESSION
-
 let expression = "";
+let resultShown = false;
 
+buttons.forEach(function (button) {
 
-
-// LOOP ON BUTTONS
-
-buttons.forEach(function(button){
-
-    button.addEventListener("click", function(){
+    button.addEventListener("click", function () {
 
         let value = button.innerText;
 
-
-
-        // AC BUTTON
-
-        if(value === "AC"){
+        if (value === "AC") {
 
             expression = "";
-
+            resultShown = false;
             screen.value = "";
-
         }
 
-        // BACKSPACE BUTTON
+        else if (value === "Back") {
 
+            if (resultShown) {
+                return;
+            }
 
-        else if(value === "Back"){
-
-            expression = expression.slice(0,-1);
-
+            expression = expression.slice(0, -1);
             screen.value = expression;
-
         }
 
+        else if (value === "=") {
 
-
- 
-        // EQUAL BUTTON
-
-        else if(value === "="){
-
-            try{
-
-                expression = eval(expression);
-
-                screen.value = expression;
-
+            if (expression === "") {
+                return;
             }
 
-            catch{
+            let total = eval(expression);
+
+            if (!isFinite(total)) {
 
                 screen.value = "Error";
-
+                expression = "";
+                return;
             }
 
+            screen.value = total;
+            expression = total.toString();
+            resultShown = true;
         }
 
+        else if (value === "sqrt") {
 
-
-        // SQRT BUTTON
-
-        else if(value === "sqrt"){
-
-            try{
-
-                expression = Math.sqrt(eval(expression));
-
-                screen.value = expression;
-
+            if (expression === "") {
+                return;
             }
 
-            catch{
+            let total = Math.sqrt(eval(expression));
+
+            if (!isFinite(total)) {
 
                 screen.value = "Error";
-
+                expression = "";
+                return;
             }
 
+            screen.value = total;
+            expression = total.toString();
+            resultShown = true;
         }
 
+        else if (value === "%") {
 
-
-        // PERCENT BUTTON
-
-        else if(value === "%"){
-
-            try{
-
-                expression = eval(expression) / 100;
-
-                screen.value = expression;
-
+            if (expression === "") {
+                return;
             }
 
-            catch{
+            let total = eval(expression) / 100;
 
-                screen.value = "Error";
-
-            }
-
+            screen.value = total;
+            expression = total.toString();
+            resultShown = true;
         }
 
+        else {
 
+            if (resultShown) {
 
-        // NORMAL BUTTONS
+                if (
+                    value !== "+" &&
+                    value !== "-" &&
+                    value !== "*" &&
+                    value !== "/"
+                ) {
 
-        else{
+                    expression = "";
+                    screen.value = "";
+                }
+
+                resultShown = false;
+            }
+
+            if (
+                expression === "" &&
+                (
+                    value === "+" ||
+                    value === "*" ||
+                    value === "/"
+                )
+            ) {
+                return;
+            }
+
+            let lastChar = expression[expression.length - 1];
+
+            if (
+                (value === "+" ||
+                 value === "-" ||
+                 value === "*" ||
+                 value === "/")
+                &&
+                (lastChar === "+" ||
+                 lastChar === "-" ||
+                 lastChar === "*" ||
+                 lastChar === "/")
+            ) {
+                return;
+            }
+
+            if (value === ".") {
+
+                let parts = expression.split(/[\+\-\*\/]/);
+
+                let currentNumber = parts[parts.length - 1];
+
+                if (currentNumber.includes(".")) {
+                    return;
+                }
+            }
 
             expression += value;
-
             screen.value = expression;
-
         }
-
     });
-
 });
